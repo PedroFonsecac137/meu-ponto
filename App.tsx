@@ -151,24 +151,24 @@ export default function Home() {
   }
   const fields = [
     ['start', 'Entrada'],
-    ['lunch', 'Saída para almoço'],
-    ['back', 'Volta do almoço'],
+    ['lunch', 'Início do almoço'],
+    ['back', 'Fim do almoço'],
     ['end', 'Saída'],
   ] as const;
   return (
     <>
       <header>
         <div className="brand">
-          ◷ <b>meu ponto</b>
+          <img src="./logo.svg" width="40" height="40" alt=""/><b>meu ponto</b>
           <small>ESTÁGIO</small>
         </div>
-        <span className="local">● Local · neste aplicativo</span>
+        <span className="local">Offline</span>
       </header>
       <main>
         <div className="heading">
           <p className="eyebrow">SEU TEMPO, ORGANIZADO</p>
-          <h1>Minha folha de ponto</h1>
-          <p>Registre o dia. Acompanhe suas horas e o saldo da jornada.</p>
+          <h1>Seu dia, no ponto.</h1>
+          <p>Seus horários e seu saldo, em um só lugar.</p>
         </div>
         <div className="workspace">
           <section className="panel register">
@@ -181,10 +181,7 @@ export default function Home() {
                 onChange={(e) => choose(e.target.value)}
               />
             </div>
-            <div className="schedule">
-              ◷ Referência: <b>10:00 → 17:00</b>
-              <span>6h de trabalho + 1h de almoço</span>
-            </div>
+            <div className="schedule"><span>Jornada <b>{duration(entry.target)}</b></span><span>Intervalo <b>{duration(entry.pause)}</b></span></div>
             <div className="time-grid">
               {fields.map(([key, label], i) => (
                 <div className="time-field" key={key}>
@@ -209,7 +206,7 @@ export default function Home() {
                       );
                     }}
                   >
-                    Usar horário de agora
+                    Agora
                   </button>
                 </div>
               ))}
@@ -361,16 +358,16 @@ export default function Home() {
                   const c = calculate(r);
                   return (
                     <tr key={r.date}>
-                      <td>{r.date.split('-').reverse().join('/')}</td>
-                      <td>{r.start || '—'}</td>
-                      <td>
+                      <td data-label="Data">{r.date.split('-').reverse().join('/')}</td>
+                      <td data-label="Entrada">{r.start || '—'}</td>
+                      <td data-label="Almoço">
                         {r.lunch || '—'} → {r.back || '—'}
                       </td>
-                      <td>{r.end || '—'}</td>
-                      <td>
+                      <td data-label="Saída">{r.end || '—'}</td>
+                      <td data-label="Trabalhado">
                         {c.worked === null ? 'Em aberto' : duration(c.worked)}
                       </td>
-                      <td
+                      <td data-label="Saldo"
                         className={
                           c.worked !== null && c.worked - r.target < 0
                             ? 'negative'
