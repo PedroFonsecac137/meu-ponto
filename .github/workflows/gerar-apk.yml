@@ -1,0 +1,47 @@
+name: Gerar APK do Meu Ponto
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+concurrency:
+  group: meu-ponto-apk
+  cancel-in-progress: false
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - uses: android-actions/setup-android@v3
+      - uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: meu-ponto-debug-signing-v1
+      - run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - run: npm run android:prepare
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk Meu-Ponto.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Meu-Ponto-APK
+          path: Meu-Ponto.apk
+          if-no-files-found: error
+      - name: Publicar APK para download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "android-${{ github.run_number }}" Meu-Ponto.apk --title "Meu Ponto Android ${{ github.run_number }}" --notes "APK Android para uso pessoal. Funciona offline, com jornada de 6 horas e intervalo ajustável."

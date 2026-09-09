@@ -1,0 +1,7 @@
+{
+  "appId": "com.meuponto.estagio",
+  "appName": "Meu Ponto",
+  "webDir": "dist",
+  "server": { "androidScheme": "https" },
+  "android": { "backgroundColor": "#f4f6f3" }
+}

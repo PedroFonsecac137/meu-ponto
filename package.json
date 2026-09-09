@@ -1,0 +1,28 @@
+{
+  "name": "meu-ponto",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Meu Ponto: registro pessoal de horários de estágio para Android",
+  "scripts": {
+    "build": "vite build",
+    "test": "node check-time.mjs",
+    "android:prepare": "npm run test && npm run build && node prepare-android.mjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "7.6.9",
+    "@capacitor/android": "7.6.9",
+    "@capacitor/filesystem": "7.1.8",
+    "@capacitor/share": "7.0.4",
+    "@capacitor/preferences": "7.0.2",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "7.6.9",
+    "@tailwindcss/postcss": "4.2.1",
+    "@vitejs/plugin-react": "6.0.2",
+    "tailwindcss": "4.2.1",
+    "vite": "8.0.13"
+  }
+}
