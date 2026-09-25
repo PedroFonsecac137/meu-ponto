@@ -18,6 +18,24 @@
 * {
   box-sizing: border-box;
 }
+html, body, #root, .app {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.app *, .app *::before, .app *::after {
+  min-width: 0;
+}
+.app {
+  overflow-wrap: anywhere;
+}
+.app-header, .section-title, .daily-balance, .record-top, .totals > div {
+  flex-wrap: wrap;
+}
 body {
   margin: 0;
 }
@@ -161,7 +179,7 @@ main {
 }
 .tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: 5px;
   background: #e7ecdf;
   border-radius: 15px;
@@ -692,7 +710,7 @@ footer {
   border-radius: 50%;
   margin-right: 6px;
 }
-@media (max-width: 760px) {
+@media (max-width: 760px), (pointer: coarse) {
   main {
     max-width: 540px;
     padding: 26px 20px calc(18px + var(--safe-bottom));
@@ -731,6 +749,19 @@ footer {
     margin-top: 4px;
   }
 }
+.native-app main {
+  width: 100%;
+  max-width: 540px;
+  padding: 24px 16px calc(18px + var(--safe-bottom));
+}
+.native-app .day-layout, .native-app .history {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+.native-app .app-header {
+  padding: calc(16px + var(--safe-top)) 16px 16px;
+}
+.native-app .tabs { max-width: none; }
 @media (max-width: 360px) {
   main {
     padding-left: 14px;

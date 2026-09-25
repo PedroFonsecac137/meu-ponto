@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { calculate, duration, clock } from "./time.mjs";
 import { readRecords, writeRecords, exportCsv } from "./storage";
+import { version } from "./package.json";
 
 type Entry = {
   date: string;
@@ -625,6 +626,7 @@ export default function App() {
           </section>
         )}
         <footer>
+          <div>Meu Ponto · versão {version}</div>
           <span className="footer-dot" />
           Seus registros ficam neste aparelho.
           <br />

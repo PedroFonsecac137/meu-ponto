@@ -46,4 +46,7 @@ jobs:
       - name: Publicar APK para download
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "android-${{ github.run_number }}" Meu-Ponto.apk --title "Meu Ponto Android ${{ github.run_number }}" --notes "APK Android para uso pessoal. Funciona offline, com jornada de 6 horas e intervalo ajustável."
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          cp Meu-Ponto.apk "Meu-Ponto-${VERSION}.apk"
+          gh release create "android-${{ github.run_number }}" "Meu-Ponto-${VERSION}.apk" --title "Meu Ponto ${VERSION}" --notes "Interface com abas Registro e Histórico. A versão aparece no rodapé. APK para uso pessoal e offline."
